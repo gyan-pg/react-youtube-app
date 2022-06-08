@@ -1,4 +1,5 @@
 import React from "react";
+import { withCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
@@ -14,8 +15,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = () => {
+
+// cookieProviderから渡されるcookieの情報を受け取るために、
+// propsを準備
+const NavBar = (props) => {
+
   const classes = useStyles();
+
+  const Logout = () => {
+    // logoutが押された際は、jwt-tokenの値を削除して、
+    // ログイン画面に飛ばす。
+    props.cookies.remove('jwt-token');
+    window.location.href = '/';
+  };
 
   return (
     <AppBar position="static">
@@ -25,7 +37,7 @@ const NavBar = () => {
         </button>
         <Typography variant="h5" className={classes.title}>Youtube App</Typography>
 
-        <button className="logout">
+        <button className="logout" onClick={Logout}>
           <FiLogOut/>
         </button>
 
@@ -33,5 +45,6 @@ const NavBar = () => {
     </AppBar>
   )
 };
-
-export default NavBar;
+// withCookiesを使用する際は、
+// exportするコンポーネントを囲う。
+export default withCookies(NavBar);
