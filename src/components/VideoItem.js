@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideoItem = (video) => {
+const VideoItem = ({video}) => {
   const classes = useStyles();
   const { setSelectedVideo } = useContext(ApiContext);
 
