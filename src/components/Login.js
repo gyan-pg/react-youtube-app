@@ -78,7 +78,10 @@ const loginReducer = (state, action) => {
     case INPUT_EDIT: {
       return {
         ...state,
-        [action.inputName]: action.payload,
+        credentialsLog: {
+          ...state.credentialsLog,
+          [action.inputName]: action.payload,
+        },
         error: '',
       };
     }
@@ -99,13 +102,11 @@ const Login = (props) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(loginReducer, initialState);
 
-  const inputChangedLog = (e) => {
-    const cred = state.credentialsLog;
-    cred[e.target.name] = e.target.value;
+  const inputChangedLog = () => (e) => {
     dispatch({
       type: INPUT_EDIT,
-      inputName: 'state.credentialLog',
-      payload: cred,
+      inputName: e.target.name,
+      payload: e.target.value,
     })
   };
 
